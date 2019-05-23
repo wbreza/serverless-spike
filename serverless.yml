@@ -1,0 +1,103 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: wabrez-sls-api3 # NOTE: update this with your service name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: azure
+  location: West US
+  subscriptionId: d36d0808-a967-4f73-9fdc-32ea232fc81d
+  resourceGroup: wabrez-711-westus-rg
+  functionAppDomain: .wabrez-711-westus-ase.p.azurewebsites.net
+  scmDomain: .scm.wabrez-711-westus-ase.p.azurewebsites.net
+  apim:
+    resourceId: wabrez-711-westus-apim
+    name: wabrez-sls-api3
+    displayName: api3
+    description: Description of the API
+    urlScheme: https
+    urlSuffix: api3
+    tags:
+      - tag1
+      - tag2
+    authorization: none
+  armTemplate:
+    file: arm/template.json
+    parameters:
+      location: West US
+      functionAppName: wabrez-sls-api3
+      appServicePlanName: wabrez-711-westus-asp-win
+      apiManagementName: wabrez-711-westus-apim
+      hostingEnvironmentName: wabrez-711-westus-ase
+      virtualNetworkName: wabrez-711-westus-vnet
+      storageAccountName: wabrez711westusstorage
+      appInsightsName: wabrez-711-westus-appinsights
+
+plugins:
+  - serverless-azure-functions
+
+# you can add packaging information here
+#package:
+#  include:
+#    - include-me.js
+#    - include-me-dir/**
+#  exclude:
+#    - exclude-me.js
+#    - exclude-me-dir/**
+
+functions:
+  hello:
+    handler: index.handler
+    apim:
+      operations:
+        - method: get
+          path: /hello
+          displayName: Hello
+    events:
+      - http: true
+        x-azure-settings:
+          authLevel : function
+      - http: true
+        x-azure-settings:
+          direction: out
+          name: res
+  goodbye:
+    handler: index.handler
+    apim:
+      operations:
+        - method: get
+          path: /goodbye
+          displayName: Goodbye
+    events:
+      - http: true
+        x-azure-settings:
+          authLevel : function
+      - http: true
+        x-azure-settings:
+          direction: out
+          name: res
+
+# The following are a few examples of other events you can configure:
+#
+# events:
+#   - queue: YourQueueName
+#     x-azure-settings:
+#       connection : StorageAppSettingName
+#   - blob:
+#     x-azure-settings:
+#       name: bindingName
+#       direction: in
