@@ -5,7 +5,11 @@
             "type": "httpTrigger",
             "direction": "in",
             "name": "req",
-            "authLevel": "function"
+            "route": "foobar",
+            "authLevel": "function",
+            "methods": [
+                "GET"
+            ]
         },
         {
             "type": "http",

@@ -70,6 +70,9 @@ functions:
     events:
       - http: true
         x-azure-settings:
+          methods: 
+            - GET
+          route: baz
           authLevel : function
       - http: true
         x-azure-settings:
@@ -85,6 +88,9 @@ functions:
     events:
       - http: true
         x-azure-settings:
+          methods:
+            - GET
+          route: foobar
           authLevel : function
       - http: true
         x-azure-settings:
