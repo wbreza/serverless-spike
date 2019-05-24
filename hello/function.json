@@ -5,7 +5,10 @@
             "type": "httpTrigger",
             "direction": "in",
             "name": "req",
-            "authLevel": "function"
+            "authLevel": "function",
+            "methods": [
+                "GET"
+            ]
         },
         {
             "type": "http",

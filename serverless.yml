@@ -25,16 +25,19 @@ provider:
   functionAppDomain: .wabrez-711-westus-ase.p.azurewebsites.net
   scmDomain: .scm.wabrez-711-westus-ase.p.azurewebsites.net
   apim:
-    resourceId: wabrez-711-westus-apim
-    name: wabrez-sls-api3
-    displayName: api3
-    description: Description of the API
-    urlScheme: https
-    urlSuffix: api3
-    tags:
-      - tag1
-      - tag2
-    authorization: none
+    name: wabrez-711-westus-apim
+    api: 
+      name: wabrez-sls-api3
+      subscriptionRequired: false
+      displayName: api3
+      description: Description of the API
+      protocols: 
+        - https
+      path: api3
+      tags:
+        - tag1
+        - tag2
+      authorization: none
   armTemplate:
     file: arm/template.json
     parameters:
@@ -65,14 +68,13 @@ functions:
     apim:
       operations:
         - method: get
-          path: /hello
+          urlTemplate: /hello
           displayName: Hello
     events:
       - http: true
         x-azure-settings:
           methods: 
             - GET
-          route: baz
           authLevel : function
       - http: true
         x-azure-settings:
@@ -83,14 +85,13 @@ functions:
     apim:
       operations:
         - method: get
-          path: /goodbye
+          urlTemplate: /goodbye
           displayName: Goodbye
     events:
       - http: true
         x-azure-settings:
           methods:
             - GET
-          route: foobar
           authLevel : function
       - http: true
         x-azure-settings:
