@@ -63,6 +63,23 @@ plugins:
 #    - exclude-me-dir/**
 
 functions:
+  health:
+    handler: index.handler
+    apim:
+      operations:
+        - method: get
+          urlTemplate: /health
+          displayName: Health
+    events:
+      - http: true
+        x-azure-settings:
+          methods: 
+            - GET
+          authLevel : function
+      - http: true
+        x-azure-settings:
+          direction: out
+          name: res
   hello:
     handler: index.handler
     apim:

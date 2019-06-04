@@ -10,7 +10,9 @@
     "azure",
     "serverless"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "open": "^6.3.0"
+  },
   "devDependencies": {
     "serverless-azure-functions": ">=0.7.0"
   }
