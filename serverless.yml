@@ -64,7 +64,7 @@ plugins:
 
 functions:
   health:
-    handler: index.handler
+    handler: ./src/handlers/health.handler
     apim:
       operations:
         - method: get
@@ -81,7 +81,7 @@ functions:
           direction: out
           name: res
   hello:
-    handler: index.handler
+    handler: ./src/handlers/hello.handler
     apim:
       operations:
         - method: get
@@ -98,7 +98,7 @@ functions:
           direction: out
           name: res
   goodbye:
-    handler: index.handler
+    handler: ./src/handlers/goodbye.handler
     apim:
       operations:
         - method: get
