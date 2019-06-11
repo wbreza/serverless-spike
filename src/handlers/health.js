@@ -1,9 +1,6 @@
-'use strict';
+const config = require('../middleware/config');
+const app = require('../middleware/app')(config());
 
-module.exports.handler = async function (context, req) {
-    context.log('JavaScript HTTP trigger function processed a request.');
-
-    context.res = {
-        body: "OK"
-    };
-};
+module.exports.handler = app.use(arguments, async (req, res) => {
+    res.body = "OK";
+});

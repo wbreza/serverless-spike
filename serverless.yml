@@ -52,6 +52,12 @@ provider:
 
 plugins:
   - serverless-azure-functions
+  - serverless-webpack
+
+custom:
+  webpack:
+    # includeModules: true
+    keepOutputDirectory: true
 
 # you can add packaging information here
 #package:
@@ -64,7 +70,7 @@ plugins:
 
 functions:
   health:
-    handler: ./src/handlers/health.handler
+    handler: src/handlers/health.handler
     apim:
       operations:
         - method: get
@@ -81,7 +87,7 @@ functions:
           direction: out
           name: res
   hello:
-    handler: ./src/handlers/hello.handler
+    handler: src/handlers/hello.handler
     apim:
       operations:
         - method: get
@@ -98,7 +104,7 @@ functions:
           direction: out
           name: res
   goodbye:
-    handler: ./src/handlers/goodbye.handler
+    handler: src/handlers/goodbye.handler
     apim:
       operations:
         - method: get
