@@ -13,7 +13,7 @@ class App {
 
     var context = { req, res };
 
-    const next = () => {
+    const next = async () => {
       const middleware = this.middlewares.pop();
       if (middleware) {
         await middleware(context, next);

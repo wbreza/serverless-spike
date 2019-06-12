@@ -1,4 +1,4 @@
-module.exports = (options) => (context, next) => {
+module.exports = (options) => async (context, next) => {
   try {
     await next();
   } catch (e) {
