@@ -1,9 +1,8 @@
-module.exports = (options) => (err, req, res, next) => {
+module.exports = (options) => (context, next) => {
   try {
-    next();
+    await next();
   } catch (e) {
     console.log("Exception handled");
     console.log(e);
-    next(e);
   }
 }

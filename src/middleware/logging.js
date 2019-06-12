@@ -1,5 +1,5 @@
-module.exports = (options) => (err, req, res, next) => {
+module.exports = (options) => (context, next) => {
   console.log("Started request");
-  next(err);
+  await next(err);
   console.log("Finished request");
 };

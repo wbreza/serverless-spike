@@ -7,19 +7,22 @@ class App {
     this.use = this.use.bind(this);
   }
 
-  use(args, handler) {
+  async use(args, handler) {
     var req = createRequest(args);
     var res = createResponse(args);
 
-    const next = (err) => {
+    var context = { req, res };
+
+    const next = () => {
       const middleware = this.middlewares.pop();
       if (middleware) {
-        middleware(err, req, res, next);
+        await middleware(context, next);
+      } else {
+        await handler(context);
       }
     }
 
-    next(null);
-    handler(req, res);
+    await next(null);
 
     return res.result();
   }
