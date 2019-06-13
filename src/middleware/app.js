@@ -1,31 +1,27 @@
 const createRequest = require('./cloudRequest');
 const createResponse = require('./cloudResponse');
 
-class App {
-  constructor(middlewares) {
-    this.middlewares = middlewares;
-    this.use = this.use.bind(this);
-  }
+module.exports = {
+  use: (middlewares, handler) => {
+    return async (...args) => {
+      var req = createRequest(args);
+      var res = createResponse(args);
+      var context = { req, res };
 
-  async use(args, handler) {
-    var req = createRequest(args);
-    var res = createResponse(args);
+      let index = 0;
 
-    var context = { req, res };
-
-    const next = async () => {
-      const middleware = this.middlewares.pop();
-      if (middleware) {
-        await middleware(context, next);
-      } else {
-        await handler(context);
+      const next = async () => {
+        const middleware = middlewares[index];
+        if (middleware) {
+          index++;
+          await middleware(context, next);
+        } else {
+          await handler(context);
+        }
       }
-    }
 
-    await next(null);
-
-    return res.result();
+      await next();
+      res.send();
+    };
   }
-}
-
-module.exports = (middlewares) => new App(middlewares);
+};

@@ -1,7 +1,9 @@
 class AzureRequest {
-  constructor(args) {
-    Object.assign(this, args[1]);
+  constructor(context, req) {
+    Object.assign(this, req);
   }
 }
+
+AzureRequest.create = (context, req) => new AzureRequest(context, req);
 
 module.exports = AzureRequest;

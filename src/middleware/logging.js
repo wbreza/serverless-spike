@@ -1,5 +1,5 @@
 module.exports = (options) => async (context, next) => {
   console.log("Started request");
-  await next(err);
+  await next();
   console.log("Finished request");
 };
