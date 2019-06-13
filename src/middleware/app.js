@@ -10,14 +10,22 @@ module.exports = {
 
       let index = 0;
 
-      const next = async () => {
+      const next = () => {
+        let result = null;
+
         const middleware = middlewares[index];
         if (middleware) {
           index++;
-          await middleware(context, next);
+          result = middleware(context, next);
         } else {
-          await handler(context);
+          result = handler(context);
         }
+
+        if (result && result.then) {
+          return result;
+        }
+
+        return Promise.resolve();
       }
 
       await next();
