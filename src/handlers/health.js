@@ -1,8 +1,8 @@
 const middlewares = require('../middleware/config')();
 const app = require('../middleware/app');
 
-module.exports.handler = app.use(middlewares, (context) => {
+module.exports.handler = app.use(middlewares, ({ req, res }) => {
     console.log("Executing Health handler...");
-    context.res.status = 200;
-    context.res.body = `OK @ ${new Date()}`;
+    res.status = 200;
+    res.body = `OK @ ${new Date()}`;
 });
