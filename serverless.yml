@@ -38,20 +38,20 @@ provider:
         - tag1
         - tag2
       authorization: none
-      cors: 
-        allowCredentials: false,
-        allowedOrigins:
-          - "*"
-        allowedMethods:
-          - GET
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-        allowedHeaders:
-          - "*"
-        exposeHeaders:
-          - "*"
+    cors: 
+      allowCredentials: false
+      allowedOrigins:
+        - "*"
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+      allowedHeaders:
+        - "*"
+      exposeHeaders:
+        - "*"
   armTemplate:
     file: arm/template.json
     parameters:
