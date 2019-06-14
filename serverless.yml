@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: wabrez-sls-api3 # NOTE: update this with your service name
+service: wabrez-711-${self:custom.stage}-${self:custom.region}-api3
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -19,15 +19,14 @@ service: wabrez-sls-api3 # NOTE: update this with your service name
 
 provider:
   name: azure
-  location: West US
+  region: ${self:custom.region}
+  stage: ${self:custom.stage}
   subscriptionId: d36d0808-a967-4f73-9fdc-32ea232fc81d
-  resourceGroup: wabrez-711-westus-rg
-  functionAppDomain: .wabrez-711-westus-ase.p.azurewebsites.net
-  scmDomain: .scm.wabrez-711-westus-ase.p.azurewebsites.net
+  resourceGroup: wabrez-711-${self:custom.region}-rg
   apim:
-    name: wabrez-711-westus-apim
+    name: wabrez-711-${self:custom.stage}-${self:custom.region}-apim
     api: 
-      name: wabrez-sls-api3
+      name: wabrez-711-${self:custom.stage}-${self:custom.region}-api3
       subscriptionRequired: false
       displayName: api3
       description: Description of the API
@@ -56,21 +55,23 @@ provider:
     file: arm/template.json
     parameters:
       location: West US
-      functionAppName: wabrez-sls-api3
-      appServicePlanName: wabrez-711-westus-asp-win
-      apiManagementName: wabrez-711-westus-apim
-      hostingEnvironmentName: wabrez-711-westus-ase
-      virtualNetworkName: wabrez-711-westus-vnet
-      storageAccountName: wabrez711westusstorage
-      appInsightsName: wabrez-711-westus-appinsights
+      functionAppName: wabrez-711-${self:custom.stage}-${self:custom.region}-api3
+      appServicePlanName: wabrez-711-${self:custom.stage}-${self:custom.region}-asp-win
+      apiManagementName: wabrez-711-${self:custom.stage}-${self:custom.region}-apim
+      hostingEnvironmentName: wabrez-711-${self:custom.region}-ase
+      virtualNetworkName: wabrez-711-${self:custom.region}-vnet
+      storageAccountName: wabrez711${self:custom.stage}${self:custom.region}stg
+      appInsightsName: wabrez-711-${self:custom.stage}-${self:custom.region}-appinsights
 
 plugins:
   - serverless-azure-functions
   - serverless-webpack
 
 custom:
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'westus'}
+
   webpack:
-    # includeModules: true
     keepOutputDirectory: true
 
 # you can add packaging information here
@@ -134,14 +135,3 @@ functions:
         x-azure-settings:
           direction: out
           name: res
-
-# The following are a few examples of other events you can configure:
-#
-# events:
-#   - queue: YourQueueName
-#     x-azure-settings:
-#       connection : StorageAppSettingName
-#   - blob:
-#     x-azure-settings:
-#       name: bindingName
-#       direction: in
