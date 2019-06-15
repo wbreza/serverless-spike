@@ -17,12 +17,26 @@ service: wabrez-711-${self:custom.stage}-${self:custom.region}-api3
 # Check out our docs for more details
 # frameworkVersion: "=X.X.X"
 
+custom:
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'westus'}
+  location: ${self:custom.regions.${self:custom.region}}
+
+  regions:
+    westus: West US
+    westus2: West US 2
+    eastus: East US
+    eastus2: East US 2
+
+  webpack:
+    keepOutputDirectory: true
+
 provider:
   name: azure
   region: ${self:custom.region}
   stage: ${self:custom.stage}
   subscriptionId: d36d0808-a967-4f73-9fdc-32ea232fc81d
-  resourceGroup: wabrez-711-${self:custom.region}-rg
+  resourceGroup: wabrez-711-${self:custom.stage}-${self:custom.region}-rg
   apim:
     name: wabrez-711-${self:custom.stage}-${self:custom.region}-apim
     api: 
@@ -52,27 +66,18 @@ provider:
       exposeHeaders:
         - "*"
   armTemplate:
-    file: arm/template.json
+    file: arm/premium-template.json
     parameters:
-      location: West US
+      location: ${self:custom.location}
       functionAppName: wabrez-711-${self:custom.stage}-${self:custom.region}-api3
       appServicePlanName: wabrez-711-${self:custom.stage}-${self:custom.region}-asp-win
       apiManagementName: wabrez-711-${self:custom.stage}-${self:custom.region}-apim
-      hostingEnvironmentName: wabrez-711-${self:custom.region}-ase
-      virtualNetworkName: wabrez-711-${self:custom.region}-vnet
       storageAccountName: wabrez711${self:custom.stage}${self:custom.region}stg
       appInsightsName: wabrez-711-${self:custom.stage}-${self:custom.region}-appinsights
 
 plugins:
   - serverless-azure-functions
   - serverless-webpack
-
-custom:
-  stage: ${opt:stage, 'dev'}
-  region: ${opt:region, 'westus'}
-
-  webpack:
-    keepOutputDirectory: true
 
 # you can add packaging information here
 #package:
